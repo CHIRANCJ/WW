@@ -1,0 +1,260 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ebe9a1; /* Dark charcoal background */
+    color: #2c2a2a; /* Light text for contrast */
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #0d6efd; /* Bright blue navbar */
+    padding: 15px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-left h1 {
+    font-size: 28px;
+    color: white;
+}
+
+.navbar-left h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Center Search Bar */
+.navbar-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 40px;
+}
+
+.search-bar {
+    width: 450px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    font-size: 16px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-button {
+    background-color: #198754;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search-button:hover {
+    background-color: #145f40;
+}
+
+/* Navbar Right Section */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-link {
+    margin: 0 15px;
+    font-size: 15px;
+    color: white;
+}
+
+.navbar-link a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-link a:hover {
+    color: #ffc107; /* Yellow on hover */
+}
+
+/* Cart Button */
+.cart-button {
+    background-color: #ffc107;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+
+.cart-button:hover {
+    background-color: #ffca2c;
+}
+
+/* Hamburger Menu */
+.navbar-menu {
+    display: none;
+    cursor: pointer;
+}
+
+/* Side Navbar */
+.side-navbar {
+    width: 280px;
+    background-color: #111111; /* Deep black sidebar */
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    padding: 30px;
+    color: white;
+    transition: 0.5s;
+}
+
+.side-navbar.open {
+    left: 0;
+}
+
+.side-navbar-link {
+    margin-bottom: 20px;
+}
+
+.side-navbar-links a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+
+.side-navbar-links a:hover {
+    color: #0d6efd;
+}
+
+/* Container */
+.container {
+    padding: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Inventory List (Product Grid) */
+#inventoryList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+/* Product Card Styling */
+.item-container {
+    background-color: #000000; /* Black background */
+    border-radius: 15px;
+    padding: 20px;
+    transition: transform 0.4s, box-shadow 0.4s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.item-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image Styling */
+.item-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Product Title */
+.item-container h3 {
+    font-size: 1.4rem;
+    margin-top: 15px;
+    color: white; /* Light text for contrast */
+}
+
+/* Product Description */
+.item-container p {
+    font-size: 1rem;
+    color: #aaaaaa; /* Lighter text for description */
+    margin-top: 10px;
+}
+
+/* Price Styling */
+.item-container p.price {
+    font-weight: bold;
+    color: #ffc107; /* Yellow price */
+}
+
+/* Buttons */
+.add-to-cart, .buy-now {
+    background-color: #ffc107; /* Bright contrasting buttons */
+    color: black;
+    border: none;
+    padding: 12px 25px;
+    margin: 10px 5px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover, .buy-now:hover {
+    background-color: #ffca2c;
+}
+
+/* Pagination */
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+#pagination button {
+    background-color: #0d6efd;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 0 10px;
+    border-radius: 50px;
+}
+
+#pagination button:hover {
+    background-color: #0a58ca;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-center {
+        display: none;
+    }
+
+    .navbar-menu {
+        display: block;
+    }
+
+    .navbar-right {
+        display: none;
+    }
+
+    #inventoryList {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}

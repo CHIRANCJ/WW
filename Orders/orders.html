@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        /* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light neutral background */
+    color: #333333; /* Darker text for contrast */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Heading */
+h1 {
+    color: #ffcc00; /* Yellow-gold accent for title */
+    margin-bottom: 20px;
+}
+
+/* Search, Filter, and Sort Containers */
+.search-container,
+.filter-container,
+.sort-container {
+    width: 100%;
+    max-width: 600px; /* Center and limit the width */
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+/* Inputs and Selects */
+input[type="text"],
+select {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border for inputs */
+    border-radius: 5px;
+    background-color: #fff; /* White background for inputs */
+    color: #333; /* Dark text for inputs */
+    flex: 1; /* Allow inputs to take available space */
+    margin-right: 10px; /* Spacing between elements */
+}
+
+/* Button Styling */
+button {
+    padding: 10px 15px;
+    background-color: #ffcc00; /* Yellow-gold accent for buttons */
+    color: #333; /* Dark text for buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #e6b800; /* Slightly darker yellow on hover */
+}
+
+/* Order List Container */
+#orderList {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px; /* Center and limit the width */
+    display: grid; /* Use grid layout for orders */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Spacing between cards */
+}
+
+/* Order Cards */
+.order {
+    background-color: #ffffff; /* White background for cards */
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effects */
+}
+
+.order:hover {
+    transform: scale(1.05); /* Scale effect on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+}
+
+/* Order Title */
+h3 {
+    color: #ffcc00; /* Yellow-gold accent for titles */
+    margin-bottom: 10px;
+}
+
+/* Paragraph Text */
+p {
+    margin: 5px 0;
+    color: #666; /* Softer gray for paragraph text */
+}
+
+/* Pagination Styling */
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination button {
+    background-color: #ffcc00; /* Yellow-gold accent for pagination buttons */
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #e6b800; /* Slightly darker yellow on hover */
+}
+
+/* Responsive Styling for Smaller Screens */
+@media (max-width: 768px) {
+    .search-container,
+    .filter-container,
+    .sort-container {
+        flex-direction: column;
+    }
+
+    input[type="text"],
+    select {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+    </style>
+</head>
+<body>
+
+<h1>Your Orders</h1>
+
+<!-- Search Bar -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by name or email">
+    <button onclick="searchOrders()">Search</button>
+</div>
+
+<!-- Filter and Sort Controls -->
+<div class="filter-container">
+    <label for="paymentFilter">Filter by Payment Method:</label>
+    <select id="paymentFilter" onchange="filterOrders()">
+        <option value="">All</option>
+        <option value="Cash">Cash</option>
+        <option value="Credit">Credit</option>
+        <option value="Online Transaction">Online Transaction</option>
+    </select>
+</div>
+
+<div class="sort-container">
+    <label for="sortBy">Sort by:</label>
+    <select id="sortBy" onchange="sortOrders()">
+        <option value="date">Order Date</option>
+        <option value="price">Total Price</option>
+    </select>
+</div>
+
+<div id="orderList">Loading orders...</div>
+<div class="pagination" id="pagination"></div>
+
+<script>
+const ORDERS_PER_PAGE = 5;
+let currentPage = 1;
+let orders = [];
+let filteredOrders = [];
+
+// Function to fetch orders from Firestore
+function fetchOrders() {
+    const url = 'https://firestore.googleapis.com/v1/projects/login-passwordd/databases/(default)/documents/orders';
+    
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Fetched orders:', data);
+            orders = data.documents || [];
+            filteredOrders = orders; // Initially, filtered orders are the same as all orders
+            displayOrders();
+            setupPagination();
+        })
+        .catch(error => {
+            console.error('Error fetching orders:', error);
+            document.getElementById('orderList').innerHTML = '<p>Error fetching orders. Please try again later.</p>';
+        });
+}
+
+// Function to display orders on the page
+function displayOrders() {
+    const orderListDiv = document.getElementById('orderList');
+    orderListDiv.innerHTML = ''; // Clear loading text
+
+    const startIndex = (currentPage - 1) * ORDERS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ORDERS_PER_PAGE, filteredOrders.length);
+
+    if (startIndex >= filteredOrders.length) {
+        orderListDiv.innerHTML = '<p>No orders found.</p>';
+        return;
+    }
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const order = filteredOrders[i];
+        const orderData = order.fields;
+        let orderHTML = `<div class="order">`;
+        orderHTML += `<h3>Order ID: ${order.name.split('/').pop()}</h3>`;
+        orderHTML += `<p><strong>Name:</strong> ${orderData.customerDetails.mapValue.fields.name.stringValue}</p>`;
+        orderHTML += `<p><strong>Email:</strong> ${orderData.customerDetails.mapValue.fields.email.stringValue}</p>`;
+        orderHTML += `<p><strong>Phone:</strong> ${orderData.customerDetails.mapValue.fields.phone.stringValue}</p>`;
+        orderHTML += `<p><strong>Address:</strong> ${orderData.customerDetails.mapValue.fields.address.stringValue}</p>`;
+        
+        orderHTML += `<h4>Cart Items:</h4><ul>`;
+        orderData.cartItems.arrayValue.values.forEach(item => {
+            orderHTML += `<li>${item.mapValue.fields.title.stringValue} (x${item.mapValue.fields.quantity.integerValue}) - $${item.mapValue.fields.price.doubleValue.toFixed(2)}</li>`;
+        });
+        orderHTML += `</ul>`;
+        
+        orderHTML += `<p><strong>Payment Method:</strong> ${orderData.paymentMethod.stringValue}</p>`;
+        orderHTML += `<p><strong>Order Date:</strong> ${new Date(orderData.orderDate.timestampValue).toLocaleString()}</p>`;
+        orderHTML += `</div>`;
+        
+        orderListDiv.innerHTML += orderHTML;
+    }
+}
+
+// Function to setup pagination
+function setupPagination() {
+    const paginationDiv = document.getElementById('pagination');
+    paginationDiv.innerHTML = ''; // Clear existing pagination
+
+    const totalPages = Math.ceil(filteredOrders.length / ORDERS_PER_PAGE);
+
+    if (totalPages === 0) return; // No pagination needed if no orders
+
+    // Create previous button
+    if (currentPage > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.onclick = () => {
+            currentPage--;
+            displayOrders();
+            setupPagination();
+        };
+        paginationDiv.appendChild(prevButton);
+    }
+
+    // Create page number buttons
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.onclick = () => {
+            currentPage = i;
+            displayOrders();
+            setupPagination();
+        };
+        paginationDiv.appendChild(pageButton);
+    }
+
+    // Create next button
+    if (currentPage < totalPages) {
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.onclick = () => {
+            currentPage++;
+            displayOrders();
+            setupPagination();
+        };
+        paginationDiv.appendChild(nextButton);
+    }
+}
+
+// Function to filter orders based on payment method
+function filterOrders() {
+    const selectedPaymentMethod = document.getElementById('paymentFilter').value;
+    if (selectedPaymentMethod) {
+        filteredOrders = orders.filter(order => {
+            return order.fields.paymentMethod.stringValue === selectedPaymentMethod;
+        });
+    } else {
+        filteredOrders = orders; // Reset to all orders if no filter is applied
+    }
+    currentPage = 1; // Reset to the first page when filtering
+    displayOrders();
+    setupPagination();
+}
+
+// Function to sort orders
+function sortOrders() {
+    const sortBy = document.getElementById('sortBy').value;
+
+    filteredOrders.sort((a, b) => {
+        if (sortBy === "date") {
+            return new Date(b.fields.orderDate.timestampValue) - new Date(a.fields.orderDate.timestampValue); // Sort by date descending
+        } else if (sortBy === "price") {
+            const totalA = a.fields.cartItems.arrayValue.values.reduce((total, item) => total + item.mapValue.fields.price.doubleValue * item.mapValue.fields.quantity.integerValue, 0);
+            const totalB = b.fields.cartItems.arrayValue.values.reduce((total, item) => total + item.mapValue.fields.price.doubleValue * item.mapValue.fields.quantity.integerValue, 0);
+            return totalB - totalA; // Sort by total price descending
+        }
+        return 0;
+    });
+
+    displayOrders();
+    setupPagination();
+}
+
+// Function to search orders based on name or email
+function searchOrders() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    filteredOrders = orders.filter(order => {
+        const customerName = order.fields.customerDetails.mapValue.fields.name.stringValue.toLowerCase();
+        const customerEmail = order.fields.customerDetails.mapValue.fields.email.stringValue.toLowerCase();
+        return customerName.includes(searchTerm) || customerEmail.includes(searchTerm);
+    });
+
+    currentPage = 1; // Reset to the first page when searching
+    displayOrders();
+    setupPagination();
+}
+
+// Fetch orders when the page loads
+fetchOrders();
+</script>
+
+</body>
+</html>

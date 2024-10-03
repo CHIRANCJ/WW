@@ -1,0 +1,125 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif; /* Clean, modern font */
+    background-color: #141414; /* Dark background for contrast */
+    color: #e5e5e5; /* Light text for readability */
+    margin: 0;
+    padding: 0;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1f1f1f; /* Dark table background */
+    color: #e5e5e5;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow for depth */
+    transition: transform 0.3s ease-in-out; /* Smooth transitions */
+}
+
+table:hover {
+    transform: translateY(-2px); /* Slight hover lift effect */
+}
+
+th, td {
+    padding: 15px; /* Adequate space for readability */
+    border: 1px solid #333; /* Subtle border for separation */
+    text-align: left;
+}
+
+th {
+    background: linear-gradient(135deg, #f39c12, #f1c40f); /* Fresh yellow gradient */
+    color: white; /* White text for contrast */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* More elegant header styling */
+    font-size: 16px;
+    position: relative; /* For pseudo-element */
+}
+
+/* Adding a soft glow effect on header */
+th::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px; /* Position the glow under the header */
+    height: 4px; /* Height of the glow effect */
+    background: rgba(255, 255, 255, 0.2); /* Soft white glow */
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out; /* Smooth effect */
+}
+
+th:hover::after {
+    transform: scaleX(1); /* Expand glow effect on hover */
+}
+
+td {
+    background-color: #2b2b2b; /* Slightly lighter for rows */
+    font-size: 15px;
+}
+
+tr:nth-child(even) td {
+    background-color: #1c1c1c; /* Alternate row color for a sleek look */
+}
+
+tr:hover td {
+    background-color: #333; /* Highlight row hover effect */
+    transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px; /* Larger buttons for better UX */
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px; /* Smooth, rounded edges */
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle button shadow */
+}
+
+/* Activate and Deactivate buttons */
+button.activate {
+    background: linear-gradient(135deg, #28a745, #218838); /* Smooth green gradient */
+    color: white; /* White text for contrast */
+}
+
+button.deactivate {
+    background: linear-gradient(135deg, #f39c12, #f1c40f); /* Yellow gradient */
+    color: white; /* White text for contrast */
+}
+
+button:hover {
+    transform: scale(1.05); /* Smooth zoom effect */
+}
+
+button.activate:hover {
+    background: linear-gradient(135deg, #34d058, #1e7e34); /* Lighter green on hover */
+}
+
+button.deactivate:hover {
+    background: linear-gradient(135deg, #ffce54, #f1c40f); /* Lighter yellow on hover */
+}
+
+button:active {
+    transform: scale(0.95); /* Button press effect */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); /* Smaller shadow on click */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px; /* Adjust font size for small screens */
+    }
+
+    button {
+        padding: 8px 16px; /* Adjust button padding for smaller screens */
+    }
+}

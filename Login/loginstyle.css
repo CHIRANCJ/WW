@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: linear-gradient(to right, #141414, #333); /* Dark gradient background */
+    color: #e5e5e5;
+    font-size: 16px;
+}
+
+/* Container Styling */
+.container {
+    background-color: #ffffff; /* White background for contrast */
+    width: 450px;
+    padding: 1.5rem;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.7); /* Darker shadow */
+}
+
+/* Form Title */
+.form-title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1.5rem 0;
+    color: #141414; /* Dark text for clarity */
+}
+
+/* Input Group Styling */
+.input-group {
+    padding: 10px 0;
+    position: relative;
+}
+
+input {
+    width: 100%;
+    padding-left: 1.5rem;
+    font-size: 15px;
+    color: #141414;
+    border: none;
+    border-bottom: 2px solid #000000; /* Subtle bottom border */
+    background-color: transparent;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-bottom: 2px solid #e6ff01; /* Neon green focus */
+    outline: none;
+}
+
+input::placeholder {
+    color: transparent; /* Placeholder text hidden */
+}
+
+/* Floating Label */
+label {
+    color: #000000;
+    position: absolute;
+    left: 1.2rem;
+    top: 1rem;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+    top: -1.5rem;
+    font-size: 0.85rem;
+    color: #e6ff01; /* Neon green floating label */
+}
+
+/* Recover Password Link */
+.recover {
+    text-align: right;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recover a {
+    text-decoration: none;
+    color: #24270d; /* Neon green link */
+}
+
+.recover a:hover {
+    color: #000000; /* Bright hover effect */
+    text-decoration: underline;
+}
+
+/* Button Styling */
+button {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #e6ff01; /* Neon green button */
+    color: #141414; /* Dark text */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #d4ff00; /* Lighter hover color */
+}
+
+/* Or Text Styling */
+.or {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    color: #000;
+}
+
+/* Google Sign-in Button */
+#googleSignIn {
+    width: 80%;
+    max-width: 200px;
+    height: 40px;
+    padding: 10px;
+    background: #e6ff01; /* Dark background for contrast */
+    color: #141414; /* Neon green text */
+    border: 2px solid #141414; /* Neon green border */
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px 0;
+}
+
+#googleSignIn:hover {
+    background: #333;
+}
+
+/* Link Styling */
+.links {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 4rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+#signUpButton, #signInButton {
+    color: #1f2012;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#signUpButton:hover, #signInButton:hover {
+    text-decoration: underline;
+    color: #0c0b02; /* Bright hover */
+}
+
+/* Message Div Styling */
+.messageDiv {
+    background-color: #e6ff01; /* Neon green background */
+    color: #141414; /* Dark text */
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 1rem;
+    opacity: 0;
+    animation: fadeOut 7s forwards;
+}
+
+/* Fadeout Animation */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Icons and Spacing */
+.icons {
+    text-align: center;
+    margin-top: 1rem;
+    color: #000;
+}

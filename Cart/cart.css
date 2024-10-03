@@ -1,0 +1,146 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 32px;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #333;
+    margin-left: 20px;
+}
+
+/* Cart Section */
+#cart {
+    background-color: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+.empty-cart {
+    background-color: #ffeeba;
+    color: #856404;
+    padding: 15px;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+}
+
+/* Form Section */
+form {
+    background-color: #fff;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: #007bff;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Radio Button Styles */
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Payment Section */
+#upiInput,
+#creditCardInput {
+    display: none;
+    margin-top: 20px;
+}
+
+/* Confirm Button */
+#confirmPaymentBtn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #9aa728;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    
+}
+
+#confirmPaymentBtn:hover {
+    background-color: #839617;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #cart,
+    form {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    h2, h3 {
+        margin-left: 0;
+        font-size: 16px;
+    }
+
+    #confirmPaymentBtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
